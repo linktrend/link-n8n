@@ -21,7 +21,7 @@ This repository is a **LiNKtrend fork** of [n8n-io/n8n](https://github.com/n8n-i
 
 - **Upstream** (`n8n-io/n8n`) uses **`master`** as its default branch.
 - **This fork** uses **`main`** for LiNK promotion (same role as `main` in other `linktrend/*` repos).
-- **`master`** may still exist on the fork as the GitHub default or legacy mirror of upstream naming; do **not** treat PRs into `master` as part of the LiNK promotion flow unless branch protection is aligned. Prefer **`main`** for releases and promotion targets.
+- **`master`** may still exist on the fork as a legacy mirror of upstream naming (GitHub default is **`development`** — see `docs/BRANCH_RECONCILIATION.md`); do **not** treat PRs into `master` as part of the LiNK promotion flow unless branch protection is aligned. Prefer **`main`** for releases and promotion targets.
 
 Allowed merge sources into `development`: `issue/*`, `dev/*`, `feature/*`, `fix/*`, `chore/*`, `codex/*`, `cursor/*`, `antigravity/*`, `dependabot/*`.
 
