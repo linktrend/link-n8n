@@ -1,14 +1,10 @@
 name: 'Test: E2E Performance'
-
 on:
-  workflow_call:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight
+  workflow_call: null
+  workflow_dispatch: null
   pull_request:
     paths:
-      - '.github/workflows/test-e2e-performance-reusable.yml'
-
+    - .github/workflows/test-e2e-performance-reusable.yml
 jobs:
   build-and-test-performance:
     uses: ./.github/workflows/test-e2e-reusable.yml
@@ -16,5 +12,5 @@ jobs:
       test-mode: docker-build
       test-command: pnpm --filter=n8n-playwright test:performance
       shards: 1
-      currents-project-id: 'O9BJaN'
+      currents-project-id: O9BJaN
     secrets: inherit
