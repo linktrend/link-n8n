@@ -6,7 +6,7 @@ import {
 	UsersListFilterDto,
 	usersListSchema,
 } from '@n8n/api-types';
-import { Logger } from '@n8n/backend-common';
+import { Logger, ModuleRegistry } from '@n8n/backend-common';
 import type { PublicUser } from '@n8n/db';
 import {
 	Project,
@@ -32,6 +32,7 @@ import {
 	Query,
 	Post,
 } from '@n8n/decorators';
+import { Container } from '@n8n/di';
 import { hasGlobalScope } from '@n8n/permissions';
 import { Response } from 'express';
 
@@ -42,12 +43,13 @@ import { ForbiddenError } from '@/errors/response-errors/forbidden.error';
 import { NotFoundError } from '@/errors/response-errors/not-found.error';
 import { EventService } from '@/events/event.service';
 import { ExternalHooks } from '@/external-hooks';
+import { ProvisioningService } from '@/modules/provisioning.ee/provisioning.service.ee';
 import { UserRequest } from '@/requests';
 import { FolderService } from '@/services/folder.service';
-import { UserService } from '@/services/user.service';
-import { WorkflowService } from '@/workflows/workflow.service';
 import { JwtService } from '@/services/jwt.service';
 import { UrlService } from '@/services/url.service';
+import { UserService } from '@/services/user.service';
+import { WorkflowService } from '@/workflows/workflow.service';
 
 @RestController('/users')
 export class UsersController {
@@ -66,13 +68,22 @@ export class UsersController {
 		private readonly folderService: FolderService,
 		private readonly jwtService: JwtService,
 		private readonly urlService: UrlService,
+		private readonly provisioningService: ProvisioningService,
+		private readonly moduleRegistry: ModuleRegistry,
 	) {}
+
+	private get dataTableService() {
+		return import('@/modules/data-table/data-table.service').then(({ DataTableService }) =>
+			Container.get(DataTableService),
+		);
+	}
 
 	static ERROR_MESSAGES = {
 		CHANGE_ROLE: {
 			NO_USER: 'Target user not found',
 			NO_ADMIN_ON_OWNER: 'Admin cannot change role on global owner',
 			NO_OWNER_ON_OWNER: 'Owner cannot change role on global owner',
+			CANNOT_CHANGE_OWN_ROLE: 'Cannot change your own global role',
 		},
 	} as const;
 
@@ -114,6 +125,8 @@ export class UsersController {
 		_res: Response,
 		@Query listQueryOptions: UsersListFilterDto,
 	) {
+		await this.userService.assertGetUsersAccess(req.user, listQueryOptions.filter?.projectId);
+
 		const userQuery = this.userRepository.buildUserQuery(listQueryOptions);
 		const response = await userQuery.getManyAndCount();
 
@@ -254,9 +267,10 @@ export class UsersController {
 		}
 
 		let transfereeId;
+		let transfereeProject: Project | null = null;
 
 		if (transferId) {
-			const transfereeProject = await this.projectRepository.findOneBy({ id: transferId });
+			transfereeProject = await this.projectRepository.findOneBy({ id: transferId });
 
 			if (!transfereeProject) {
 				throw new NotFoundError(
@@ -264,9 +278,11 @@ export class UsersController {
 				);
 			}
 
+			const transfereeProjectId = transfereeProject.id;
+
 			const transferee = await this.userRepository.findOneByOrFail({
 				projectRelations: {
-					projectId: transfereeProject.id,
+					projectId: transfereeProjectId,
 				},
 			});
 
@@ -275,18 +291,18 @@ export class UsersController {
 			await this.userService.getManager().transaction(async (trx) => {
 				await this.workflowService.transferAll(
 					personalProjectToDelete.id,
-					transfereeProject.id,
+					transfereeProjectId,
 					trx,
 				);
 				await this.credentialsService.transferAll(
 					personalProjectToDelete.id,
-					transfereeProject.id,
+					transfereeProjectId,
 					trx,
 				);
 
 				await this.folderService.transferAllFoldersToProject(
 					personalProjectToDelete.id,
-					transfereeProject.id,
+					transfereeProjectId,
 					trx,
 				);
 			});
@@ -311,6 +327,20 @@ export class UsersController {
 
 		for (const credential of ownedCredentials) {
 			await this.credentialsService.delete(userToDelete, credential.id);
+		}
+
+		// Transfer or hard-delete data tables before the project is removed, so the physical
+		// data_table_user_<id> tables are dropped instead of orphaned by the FK cascade.
+		if (this.moduleRegistry.isActive('data-table')) {
+			const dataTableService = await this.dataTableService;
+			if (transfereeProject) {
+				await dataTableService.transferDataTablesByProjectId(
+					personalProjectToDelete.id,
+					transfereeProject.id,
+				);
+			} else {
+				await dataTableService.deleteDataTableByProjectId(personalProjectToDelete.id);
+			}
 		}
 
 		await this.userService.getManager().transaction(async (trx) => {
@@ -342,8 +372,18 @@ export class UsersController {
 		@Body payload: RoleChangeRequestDto,
 		@Param('id') id: string,
 	) {
-		const { NO_ADMIN_ON_OWNER, NO_USER, NO_OWNER_ON_OWNER } =
+		if (await this.provisioningService.isInstanceRoleManaged()) {
+			throw new ForbiddenError(
+				'Instance roles are managed automatically and cannot be changed manually',
+			);
+		}
+
+		const { NO_ADMIN_ON_OWNER, NO_USER, NO_OWNER_ON_OWNER, CANNOT_CHANGE_OWN_ROLE } =
 			UsersController.ERROR_MESSAGES.CHANGE_ROLE;
+
+		if (req.user.id === id) {
+			throw new ForbiddenError(CANNOT_CHANGE_OWN_ROLE);
+		}
 
 		const targetUser = await this.userRepository.findOne({
 			where: { id },
