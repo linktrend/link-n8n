@@ -190,7 +190,12 @@
       "undici@5": "catalog:undici-v6",
       "undici@6": "catalog:undici-v6",
       "undici@7": "catalog:undici-v7",
-      "@babel/traverse": "^7.23.2"
+      "@babel/traverse": "^7.23.2",
+      "adm-zip": "0.6.0",
+      "linkify-it": "5.0.1",
+      "dompurify": "3.4.11",
+      "minimatch@8": "8.0.6",
+      "minimatch@9": "9.0.7"
     },
     "patchedDependencies": {
       "bull@4.16.4": "patches/bull@4.16.4.patch",
