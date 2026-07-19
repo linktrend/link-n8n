@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout fork development
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d9431de7b25df6bd # v4.2.2
       with:
         ref: development
         fetch-depth: 0
