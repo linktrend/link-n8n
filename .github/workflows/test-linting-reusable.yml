@@ -15,7 +15,9 @@ on:
         default: 24.13.1
 
 env:
-  NODE_OPTIONS: --max-old-space-size=7168
+  # ubuntu-latest has ~7GB RAM; 7168 heap OOMs the lint job on GitHub-hosted runners.
+  NODE_OPTIONS: ${{ vars.RUNNER_PROVIDER == 'github' && '--max-old-space-size=4096' || '--max-old-space-size=7168' }}
+  TURBO_CONCURRENCY: ${{ vars.RUNNER_PROVIDER == 'github' && '2' || '4' }}
 
 jobs:
   lint:

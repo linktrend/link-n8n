@@ -35,7 +35,8 @@ function generateUserManagementEmailTemplates() {
 		if (template.startsWith('_')) return;
 		const source = path.resolve(sourceDir, template);
 		const destination = path.resolve(destinationDir, template.replace(/\.mjml$/, '.handlebars'));
-		const command = `pnpm mjml --output "${destination}" "${source}"`;
+		// MJML 5 disables mj-include by default; email templates rely on shared partials.
+		const command = `pnpm mjml --config.allowIncludes true --output "${destination}" "${source}"`;
 		shell.exec(command, { silent: false });
 	});
 

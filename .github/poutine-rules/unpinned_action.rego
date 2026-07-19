@@ -40,4 +40,5 @@ results contains poutine.finding(rule, pkg.purl, {
 	step.uses
 	not is_sha_pinned(step.uses)
 	not is_local_action(step.uses)
+	not is_reusable_workflow(step.uses)
 }
