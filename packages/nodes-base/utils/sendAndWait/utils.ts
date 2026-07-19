@@ -334,6 +334,21 @@ const getFormResponseCustomizations = (context: IWebhookFunctions) => {
 	};
 };
 
+// Block requests from Microsoft Preview Service to prevent accidental
+// approval/disapproval when sending links in Teams
+const isMicrosoftPreviewService = (userAgent?: string) => {
+	// The request that the Preview Service makes when the message is sent in
+	// Teams does not have a user-agent header
+	if (!userAgent) {
+		return true;
+	}
+
+	userAgent = userAgent.toLowerCase();
+	// The request that the Preview Service makes when the link is pasted in
+	// Teams does have a user-agent header that can be used to identify it
+	return ['teams', 'skype', 'preview'].some((str) => userAgent.includes(str));
+};
+
 export async function sendAndWaitWebhook(this: IWebhookFunctions) {
 	const method = this.getRequestObject().method;
 	const res = this.getResponseObject();
@@ -346,10 +361,7 @@ export async function sendAndWaitWebhook(this: IWebhookFunctions) {
 
 	if (
 		responseType === 'approval' &&
-		(isbot(req.headers['user-agent']) ||
-			// Microsoft Teams link preview service (SkypeSpaces) automatically fetches
-			// URLs in chat messages for rich previews, which would trigger the approval
-			req.headers['user-agent']?.includes('SkypeSpaces'))
+		(isbot(req.headers['user-agent']) || isMicrosoftPreviewService(req.headers['user-agent']))
 	) {
 		res.send('');
 		return { noWebhookResponse: true };
@@ -393,7 +405,18 @@ export async function sendAndWaitWebhook(this: IWebhookFunctions) {
 
 			return {
 				webhookResponse: ACTION_RECORDED_PAGE,
-				workflowData: [[{ json: { data: { text: data[INPUT_FIELD_IDENTIFIER] } } }]],
+				workflowData: [
+					[
+						{
+							json: {
+								data: {
+									text: data[INPUT_FIELD_IDENTIFIER],
+									respondedAt: new Date().toISOString(),
+								},
+							},
+						},
+					],
+				],
 			};
 		}
 	}
@@ -449,7 +472,9 @@ export async function sendAndWaitWebhook(this: IWebhookFunctions) {
 			delete json.submittedAt;
 			delete json.formMode;
 
-			returnItem.json = { data: json };
+			// respondedAt is applied last so a form field of the same name can't override
+			// the server-set response timestamp.
+			returnItem.json = { data: { ...json, respondedAt: new Date().toISOString() } };
 
 			return {
 				webhookResponse: ACTION_RECORDED_PAGE,
@@ -462,7 +487,7 @@ export async function sendAndWaitWebhook(this: IWebhookFunctions) {
 	const approved = query.approved === 'true';
 	return {
 		webhookResponse: ACTION_RECORDED_PAGE,
-		workflowData: [[{ json: { data: { approved } } }]],
+		workflowData: [[{ json: { data: { approved, respondedAt: new Date().toISOString() } } }]],
 	};
 }
 
