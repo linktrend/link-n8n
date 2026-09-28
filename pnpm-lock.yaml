@@ -673,8 +673,8 @@ catalogs:
       version: 7.0.2
   undici-v6:
     undici:
-      specifier: ^6.27.0
-      version: 6.27.0
+      specifier: ^6.28.1
+      version: 6.29.0
   undici-v7:
     undici:
       specifier: ^7.28.0
@@ -768,8 +768,8 @@ overrides:
   '@turbo/linux-64@<=2.9.18': 2.9.18
   '@turbo/windows-64@<=2.9.18': 2.9.18
   ibm-cloud-sdk-core: ^5.5.0
-  undici@5: ^6.27.0
-  undici@6: ^6.27.0
+  undici@5: ^6.28.1
+  undici@6: ^6.28.1
   undici@7: ^7.28.0
   '@babel/traverse': ^7.23.2
   adm-zip: 0.6.0
@@ -1118,7 +1118,7 @@ importers:
         version: 3.0.3
       undici:
         specifier: catalog:undici-v6
-        version: 6.27.0
+        version: 6.29.0
       zod:
         specifier: 3.25.67
         version: 3.25.67
@@ -1248,7 +1248,7 @@ importers:
         version: 7.2.2
       undici:
         specifier: catalog:undici-v6
-        version: 6.27.0
+        version: 6.29.0
       uuid:
         specifier: 'catalog:'
         version: 11.1.1
@@ -6108,7 +6108,7 @@ importers:
         version: 1.2.2(date-fns@2.30.0)(lodash@4.18.1)(zod@3.25.67)
       undici:
         specifier: catalog:undici-v6
-        version: 6.27.0
+        version: 6.29.0
       uuid:
         specifier: 'catalog:'
         version: 11.1.1
@@ -7059,6 +7059,7 @@ packages:
   '@aws-sdk/middleware-websocket@3.936.0':
     resolution: {integrity: sha512-bPe3rqeugyj/MmjP0yBSZox2v1Wa8Dv39KN+RxVbQroLO8VUitBo6xyZ0oZebhZ5sASwSg58aDcMlX0uFLQnTA==}
     engines: {node: '>= 14.0.0'}
+    deprecated: Please update your @aws-sdk client to a more recent version, such as https://github.com/aws/aws-sdk-js-v3/releases/tag/v3.982.0, if using browser-based WebSocket bidirectional streaming.
 
   '@aws-sdk/nested-clients@3.808.0':
     resolution: {integrity: sha512-NparPojwoBul7XPCasy4psFMJbw7Ys4bz8lVB93ljEUD4VV7mM7zwK27Uhz20B8mBFGmFEoAprPsVymJcK9Vcw==}
@@ -13009,6 +13010,7 @@ packages:
 
   '@xata.io/client@0.28.4':
     resolution: {integrity: sha512-B02WHIA/ViHya84XvH6JCo13rd5h4S5vVyY2aYi6fIcjDIbCpsSLJ4oGWpdodovRYeAZy9Go4OhdyZwMIRC4BQ==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     peerDependencies:
       typescript: '>=4.5'
 
@@ -13019,6 +13021,7 @@ packages:
   '@xmldom/xmldom@0.8.13':
     resolution: {integrity: sha512-KRYzxepc14G/CEpEGc3Yn+JKaAeT63smlDr+vjB8jRfgTBBI9wRj/nkQEO+ucV8p8I9bfKLWp37uHgFrbntPvw==}
     engines: {node: '>=10.0.0'}
+    deprecated: this version has critical issues, please update to the latest version
 
   '@zilliz/milvus2-sdk-node@2.5.7':
     resolution: {integrity: sha512-5gvIlllZCDkbcy1O9WjV4bZWgq+mlNekl5W4JcyO0HpyPcovoGF6cgWksl38kjXSl7WUSt1jWm2Q71Ua3r6foA==}
@@ -14311,6 +14314,7 @@ packages:
   cron-parser@4.9.0:
     resolution: {integrity: sha512-p0SaNjrHOnQeR8/VnfGbmg9te2kfyYSQ7Sc/j/6DtPL3JQvKxmjO9TSjNFpujqV3vEYYBvNNvXSxzyksBWAx1Q==}
     engines: {node: '>=12.0.0'}
+    deprecated: v4 is no longer maintained, upgrade to v5
 
   cron-parser@5.6.1:
     resolution: {integrity: sha512-QBm4o1PwZiuY7KFbVvW7FLC8bozy7YWzv+Fz6KRS7sQghzcbDZCGxr/Bc5b6TQreAoSwuWVP491dIcK0THCX6A==}
@@ -14354,6 +14358,7 @@ packages:
 
   crypto-js@4.2.0:
     resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    deprecated: Active development of CryptoJS has been discontinued. This library is no longer maintained.
 
   csrf@3.1.0:
     resolution: {integrity: sha512-uTqEnCvWRk042asU6JtapDTcJeeailFy4ydOQS28bj1hcLnYRiqi8SsD2jS412AY1I/4qdOwWZun774iqywf9w==}
@@ -15309,6 +15314,7 @@ packages:
   eslint@9.29.0:
     resolution: {integrity: sha512-GsGizj2Y1rCWDu6XoEekL3RLilp0voSePurjZIkxL3wlm5o5EC9VpgaP7lrCvjnkuLvzFBQWB3vWB3K5KQTveQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -19183,6 +19189,7 @@ packages:
   prebuild-install@7.1.3:
     resolution: {integrity: sha512-8Mf2cbV7x1cXPUILADGI3wuhfqWvtiLA1iclTDbFRZkgRQS0NqsPZphna9V+HyTEadheuPmjaJMsbzKQFOzLug==}
     engines: {node: '>=10'}
+    deprecated: No longer maintained. Please contact the author of the relevant native addon; alternatives are available.
     hasBin: true
 
   precinct@12.2.0:
@@ -19249,6 +19256,7 @@ packages:
   prom-client@15.1.3:
     resolution: {integrity: sha512-6ZiOBfCywsD4k1BN9IX0uZhF+tJkV8q8llP64G5Hajs4JOeVLPCwpPVcpXy3BwYiUGgyJzsJJQeOIv7+hDSq8g==}
     engines: {node: ^16 || ^18 || >=20}
+    deprecated: prom-client has been replaced by @prometheus-io/client
 
   promise-ftp-common@1.1.5:
     resolution: {integrity: sha512-a84F/zM2Z0Ry/ht3nXfV6Ze7BISOQlWrct/YObrluJn8qy2LVeeQ+IJ7jD4bkmM0N2xfXYy5nurz4L1KEj+rJg==}
@@ -19443,6 +19451,7 @@ packages:
     resolution: {integrity: sha512-gv6vLGcmAOg96/fgo3d9tvA4dJNZL3fMyBqVRrGxQ+Q/o4k9QzbJ3NQF9cOO/71wRodoXhaPgphvMFU68qVAJQ==}
     deprecated: |-
       You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+
       (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qrcode.vue@3.3.4:
@@ -21241,8 +21250,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici@6.27.0:
-    resolution: {integrity: sha512-YmfV3YnEDzXRC5lZ2jWtWWHKGUm1zIt8AhesR1tens+HTNv+YZlN/dp6G727LOvMJ8xjP9Be7Y2Sdr96LDm+pg==}
+  undici@6.29.0:
+    resolution: {integrity: sha512-R+RODBqp6i2pPflGdq+xIOUkl+RNfGgHwoinecKu/JCuf2uO06cOKoDbI2P7Dn6KcswdKwrczbU6IYJ6K8X+wg==}
     engines: {node: '>=18.17'}
 
   undici@7.28.0:
@@ -21666,8 +21675,8 @@ packages:
   vue-component-type-helpers@2.2.12:
     resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
 
-  vue-component-type-helpers@3.3.7:
-    resolution: {integrity: sha512-Skkhw9agYSgsWqv7bxSOGJZa9SaiJbZVGdXuFWnrzKaQYHnw9qbjD630rw6RyMqDbp54nfLCLw5SZA55if7JLg==}
+  vue-component-type-helpers@3.3.11:
+    resolution: {integrity: sha512-LwcxzeliO9fkQcpJG0PoX8X5kmAhKmH9wkpDLxNabwzkQ9Zeib2YVHwFV4pcWmMLfXVfjr/dSV+DaJ3cIPgSNA==}
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -22203,12 +22212,12 @@ snapshots:
       '@octokit/plugin-rest-endpoint-methods': 10.4.1(@octokit/core@5.2.2)
       '@octokit/request': 8.4.1
       '@octokit/request-error': 5.1.1
-      undici: 6.27.0
+      undici: 6.29.0
 
   '@actions/http-client@2.2.3':
     dependencies:
       tunnel: 0.0.6
-      undici: 6.27.0
+      undici: 6.29.0
 
   '@actions/io@1.1.3': {}
 
@@ -27396,13 +27405,13 @@ snapshots:
     dependencies:
       '@qdrant/openapi-typescript-fetch': 1.2.6
       typescript: 6.0.2
-      undici: 6.27.0
+      undici: 6.29.0
 
   '@qdrant/js-client-rest@1.16.2(typescript@7.0.2)':
     dependencies:
       '@qdrant/openapi-typescript-fetch': 1.2.6
       typescript: 7.0.2
-      undici: 6.27.0
+      undici: 6.29.0
 
   '@qdrant/openapi-typescript-fetch@1.2.6': {}
 
@@ -28485,7 +28494,7 @@ snapshots:
       storybook: 10.1.11(@testing-library/dom@10.4.0)(bufferutil@4.0.9)(prettier@3.6.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(utf-8-validate@5.0.10)
       type-fest: 2.19.0
       vue: 3.5.26(typescript@6.0.2)
-      vue-component-type-helpers: 3.3.7
+      vue-component-type-helpers: 3.3.11
 
   '@stryker-mutator/api@9.6.1':
     dependencies:
@@ -36693,7 +36702,7 @@ snapshots:
       semver: 7.7.3
       tar: 7.5.16
       tinyglobby: 0.2.15
-      undici: 6.27.0
+      undici: 6.29.0
       which: 6.0.1
 
   node-gyp@8.4.1:
@@ -40243,7 +40252,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@6.27.0: {}
+  undici@6.29.0: {}
 
   undici@7.28.0: {}
 
@@ -40658,7 +40667,7 @@ snapshots:
 
   vue-component-type-helpers@2.2.12: {}
 
-  vue-component-type-helpers@3.3.7: {}
+  vue-component-type-helpers@3.3.11: {}
 
   vue-demi@0.14.10(vue@3.5.26(typescript@6.0.2)):
     dependencies:
